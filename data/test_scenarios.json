@@ -1,0 +1,50 @@
+[
+  {
+    "scenario_id": "SCEN-CRISIS-LEGAL",
+    "description": "Severe health hazard with imminent legal action and regulatory reporting",
+    "customer_tier": "Standard",
+    "rating": 1,
+    "text": "Severe food poisoning after eating the seafood platter yesterday. Three members of our family are currently hospitalized with acute gastroenteritis. We are filing a formal complaint with the Food Safety and Standards Authority (FSSAI) and our lawyer will contact your management.",
+    "expected": {
+      "crisis_level": "CRITICAL",
+      "escalate_to_human": true,
+      "dominant_sentiment": "Negative"
+    }
+  },
+  {
+    "scenario_id": "SCEN-ENTERPRISE-SLA",
+    "description": "Enterprise customer experiencing critical production outage and revenue loss",
+    "customer_tier": "Enterprise",
+    "rating": 1,
+    "text": "Critical data sync outage! Our production database integration has been failing continuously since the 4.2 patch update. Over 15,000 active customer checkout requests dropped. We are evaluating contract cancellation and SLA penalty claims.",
+    "expected": {
+      "crisis_level": "CRITICAL",
+      "escalate_to_human": true,
+      "dominant_sentiment": "Negative"
+    }
+  },
+  {
+    "scenario_id": "SCEN-POSITIVE-PROMOTER",
+    "description": "High promoter VIP customer praising staff and experience",
+    "customer_tier": "VIP",
+    "rating": 5,
+    "text": "Wonderful stay! The rooftop breakfast had an amazing spread and the housekeeping team kept everything spotless. Special shoutout to Amit at reception for helping us with local sightseeing.",
+    "expected": {
+      "crisis_level": "NORMAL",
+      "escalate_to_human": false,
+      "dominant_sentiment": "Positive"
+    }
+  },
+  {
+    "scenario_id": "SCEN-CODE-MIXED-HINGLISH",
+    "description": "Nuanced Hinglish review with mixed sentiment from VIP guest",
+    "customer_tier": "VIP",
+    "rating": 2,
+    "text": "Khana theek tha lekin service bahot slow thi. Manager ko 3 baar bola billing check karne ke liye par koi dhyan nahi diya. Expected much better standard from a 5 star property.",
+    "expected": {
+      "crisis_level": "WARNING",
+      "escalate_to_human": true,
+      "dominant_sentiment": "Negative"
+    }
+  }
+]

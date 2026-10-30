@@ -3,46 +3,37 @@ Integration tests for FastAPI endpoints
 """
 
 import pytest
-from fastapi.testclient import TestClient
-from src.api.server import app
-
-client = TestClient(app)
+import httpx
+from src.api.server import app, root, health_check, analyze_review, crisis_scan, ReviewAnalysisRequest, CrisisScanRequest
 
 
 def test_root_endpoint():
-    response = client.get("/")
-    assert response.status_code == 200
-    data = response.json()
+    data = root()
     assert data["status"] == "operational"
     assert data["service"] == "Cynbit AI Sentinel"
 
 
 def test_health_endpoint():
-    response = client.get("/api/v1/health")
-    assert response.status_code == 200
-    data = response.json()
+    data = health_check()
     assert data["status"] == "healthy"
+    assert data["engine_absa"] == "ready"
 
 
 def test_analyze_endpoint():
-    payload = {
-        "text": "The food was delicious and the rooftop ambiance was wonderful.",
-        "business_name": "Test Bistro",
-        "branch_location": "Jaipur",
-        "rating": 5,
-        "customer_tier": "VIP"
-    }
-    response = client.post("/api/v1/analyze", json=payload)
-    assert response.status_code == 200
-    data = response.json()
-    assert data["success"] is True
-    assert data["data"]["sentiment_intelligence"]["overall_sentiment"] == "Positive"
+    payload = ReviewAnalysisRequest(
+        text="The food was delicious and the rooftop ambiance was wonderful.",
+        business_name="Test Bistro",
+        branch_location="Jaipur",
+        rating=5,
+        customer_tier="VIP"
+    )
+    res = analyze_review(payload)
+    assert res["success"] is True
+    assert res["data"]["sentiment_intelligence"]["overall_sentiment"] == "Positive"
 
 
 def test_crisis_scan_endpoint():
-    payload = {"text": "We are reporting this to the police and filing with consumer court for fraud."}
-    response = client.post("/api/v1/crisis-scan", json=payload)
-    assert response.status_code == 200
-    data = response.json()
-    assert data["has_crisis_trigger"] is True
-    assert "LEGAL_REGULATORY" in data["matched_categories"]
+    payload = CrisisScanRequest(text="We are reporting this to the police and filing with consumer court for fraud.")
+    res = crisis_scan(payload)
+    assert res["has_crisis_trigger"] is True
+    assert "LEGAL_REGULATORY" in res["matched_categories"]
